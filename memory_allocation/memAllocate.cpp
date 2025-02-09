@@ -69,6 +69,10 @@ public:
         }
 
         Block* block = reinterpret_cast<Block*>(reinterpret_cast<char*>(ptr) - sizeof(Block));
+        if (block->freeMemory) {
+            std::cerr << "Error: Double free detected!\n";
+            return nullptr;
+        }
         block->freeMemory = true;
 
         Block* current = freeList;
